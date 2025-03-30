@@ -1,37 +1,19 @@
-name: Flutter CI/CD
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+name: CI/CD
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          flutter-version: 3.16.3
-
+          node-version: "14"
       - name: Install dependencies
-        run: flutter pub get
-
+        run: npm install
       - name: Run tests
-        run: flutter test
-
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+        run: npm test
+      - name: Build Project
+        run: npm run build
