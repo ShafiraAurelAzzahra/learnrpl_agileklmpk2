@@ -1,0 +1,16 @@
+{
+  "name": "learnrpl_agileklmpk2",
+  "version": "1.0.0",
+  "description": "NAMA : SHAFIRA AUREL AZZAHRA NPM : 2213025005 KELAS : A MATA KULIAH : MOBILE PROGAMMING PTI",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
