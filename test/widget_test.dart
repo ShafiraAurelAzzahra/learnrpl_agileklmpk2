@@ -1,46 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
-import 'package:myapp/main.dart'; // Pastikan ini benar
-import 'package:myapp/home_screen.dart'; // Impor HomeScreen jika perlu
+import 'package:flutter/material.dart'; // Mengimpor Material Design package.
+import 'package:flutter_test/flutter_test.dart'; // Mengimpor Flutter Test untuk melakukan pengujian widget.
+
+import 'package:myapp/main.dart'; // Mengimpor file utama aplikasi.
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    await tester
-        .pumpWidget(GetMaterialApp(home: HomeScreen())); // Jalankan aplikasi
-    await tester.pumpAndSettle(); // Tunggu semua rendering selesai
+    // Fungsi main() yang menjalankan test case dengan deskripsi "Counter increments smoke test".
 
-    // Debug: Cek apakah halaman HomeScreen muncul
-    print(
-        "Widget ditemukan di layar: ${find.text('Hi Good People !').evaluate().length}");
+    await tester.pumpWidget(MyApp());
+    // Menginisialisasi widget `MyApp` ke dalam tester. Ini seperti menjalankan aplikasi untuk pengujian.
 
-    // Jika ada halaman awal, klik tombol untuk masuk ke HomeScreen
-    if (find.text("Get Started").evaluate().isNotEmpty) {
-      await tester.tap(find.text("Get Started"));
-      await tester.pumpAndSettle();
-    }
+    expect(find.text('0'), findsOneWidget);
+    // Memeriksa apakah teks '0' ditemukan satu kali di layar (counter dimulai dari 0).
 
-    // Cek apakah ada angka "0" di layar
-    print("Jumlah widget dengan teks '0': ${find.text('0').evaluate().length}");
+    expect(find.text('1'), findsNothing);
+    // Memeriksa apakah teks '1' tidak ditemukan di layar (karena belum ditambah).
 
-    // Debug: Jika tidak ditemukan, tampilkan semua widget yang ada
-    if (find.text('0').evaluate().isEmpty) {
-      print("Widget '0' tidak ditemukan. Widget yang ada di layar:");
-      tester.allWidgets.forEach((widget) => print(widget.toString()));
-    }
-
-    // Pastikan angka "0" ada di layar sebelum menekan tombol
-    expect(find.text('0'), findsOneWidget,
-        reason: "Counter harus dimulai dari 0");
-
-    // Ketuk tombol tambah
     await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Menemukan tombol dengan ikon 'add' (plus) dan mensimulasikan ketukan.
 
-    // Pastikan angka berubah menjadi "1"
-    expect(find.text('0'), findsNothing,
-        reason: "Angka 0 harus hilang setelah tombol ditekan");
-    expect(find.text('1'), findsOneWidget,
-        reason: "Counter harus berubah menjadi 1");
+    await tester.pump();
+    // Memicu frame baru untuk memperbarui tampilan setelah ketukan tombol.
+
+    expect(find.text('0'), findsNothing);
+    // Memeriksa apakah teks '0' tidak ditemukan lagi setelah counter ditambah.
+
+    expect(find.text('1'), findsOneWidget);
+    // Memeriksa apakah teks '1' ditemukan satu kali di layar setelah counter ditambah.
   });
 }
